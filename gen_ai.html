@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>MSN Academy - Generative AI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/style.css" />
+</head>
+<body>
+        <div class="page-container">
+        <header class="msn-header">
+            <div class="container">
+                <nav class="msn-header-nav">
+                    <div class="msn-header-brand">
+                        <img alt="MSN Academy logo" class="msn-logo" src="Images/logo.png" />
+                    </div>
+                    <ul class="msn-nav-links">
+                        <li><a href="index.html" class="msn-nav-link">Home</a></li>
+                        <li><a href="courses.html" class="msn-nav-link">Courses</a></li>
+                        <li><a href="trainers.html" class="msn-nav-link">Team</a></li>
+                        <li><a href="certificate.html" class="msn-nav-link">Certificate</a></li>
+                        <li><a href="contact.html" class="msn-nav-link">Contact Us</a></li>
+                    </ul>
+                    <div class="msn-header-buttons">
+                        <a href="https://forms.gle/c82S9HnVPQCKf1vE8" class="msn-btn msn-btn-primary" target="_blank">Join Now</a>
+                        <a href="#" class="msn-btn msn-btn-secondary">Learn</a>
+                    </div>
+                    <button class="msn-mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </nav>
+            </div>
+            <!-- <div class="msn-hero">
+                <div class="container">
+                    <div class="msn-hero-content">
+                        <h1 class="msn-hero-title">Generative AI Course</h1>
+                        <p class="msn-hero-description">Master the future of AI with ChatGPT, DALL-E, and custom AI models. Learn prompt engineering and AI integration strategies.</p>
+                        <a href="#course-details" class="msn-btn msn-btn-primary msn-hero-btn">Enroll Now</a>
+                    </div>
+                    <div class="msn-hero-image">
+                        <img src="Images/gen_ai.jpg" alt="Generative AI illustration" />
+                    </div>
+                </div>
+            </div> -->
+        </header>
+        <main class="main-content">
+            <section class="content-section">
+                <div class="course-details card">
+                    <h1 class="course-title">Generative Artificial Intelligence (Gen AI)</h1>
+                    <p>Dive into the world of creative AI and learn to build systems that generate text, images, and other forms of media.</p>
+                    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; color: #00122e;">Includes:</h3>
+                    <ul class="course-list" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Hands-on projects</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Lifetime access</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Expert instructors</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Community support</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Flexible schedule</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Weekly live sessions</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Certification upon completion</li>
+                        <li class="course-list-item"><i class="fas fa-check-circle course-list-icon"></i>Resource materials included</li>
+                    </ul>
+                    <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 1rem 0;">
+                    <div class="accordion-container">
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('course-overview')" aria-expanded="false" aria-controls="course-overview">
+                                <span style="font-size: 1rem;">Course Overview</span>
+                                <i id="course-overview-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="course-overview" class="accordion-content">
+                                This course introduces the core concepts of generative models like GANs and LLMs. You'll work on projects that involve generating creative content and interacting with AI APIs.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('learning-outcomes')" aria-expanded="false" aria-controls="learning-outcomes">
+                                <span style="font-size: 1rem;">Learning Outcomes</span>
+                                <i id="learning-outcomes-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="learning-outcomes" class="accordion-content">
+                                You will be able to build and fine-tune generative models, understand their applications, and integrate them into real-world projects.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('target-audience')" aria-expanded="false" aria-controls="target-audience">
+                                <span style="font-size: 1rem;">Target Audience</span>
+                                <i id="target-audience-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="target-audience" class="accordion-content">
+                                Developers, researchers, and artists who want to explore the creative possibilities of AI.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('course-duration')" aria-expanded="false" aria-controls="course-duration">
+                                <span style="font-size: 1rem;">Course Duration</span>
+                                <i id="course-duration-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="course-duration" class="accordion-content">
+                                This is a 12-week specialized program with hands-on labs and projects.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('enrollment-fee')" aria-expanded="false" aria-controls="enrollment-fee">
+                                <span style="font-size: 1rem;">Enrollment Fee</span>
+                                <i id="enrollment-fee-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="enrollment-fee" class="accordion-content">
+                                The total fee is PKR 75,000, which includes access to cloud computing resources for training models.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('instructor-profile')" aria-expanded="false" aria-controls="instructor-profile">
+                                <span style="font-size: 1rem;">Instructor Profile</span>
+                                <i id="instructor-profile-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="instructor-profile" class="accordion-content">
+                                Our instructor is a leading expert in machine learning with published research in Generative AI.
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <button class="accordion-button" onclick="toggleAccordion('student-testimonials')" aria-expanded="false" aria-controls="student-testimonials">
+                                <span style="font-size: 1rem;">Student Testimonials</span>
+                                <i id="student-testimonials-icon" class="fas fa-chevron-down accordion-icon"></i>
+                            </button>
+                            <div id="student-testimonials" class="accordion-content">
+                                "This course opened my eyes to the future of AI. The projects were challenging but incredibly rewarding."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-card card">
+                    <div class="video-container">
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/KLGIcMBn45A?si=ibIgx-uPykJnlBTG" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="price-box">
+                        <p class="price">PKR 75,000</p>
+                        <div class="rating" style="margin-bottom: 0.5rem; color: #facc15;">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                            <span style="font-size: 0.75rem; color: #4a5568;">(4.8 stars) - 18 reviews</span>
+                        </div>
+                        <a href="https://forms.gle/c82S9HnVPQCKf1vE8" target="_blank" class="btn btn-full btn-navy">Get Started</a>
+                        <a href="https://youtu.be/KLGIcMBn45A?si=ibIgx-uPykJnlBTG" target="_blank" class="btn btn-full btn-outline">Watch Demo</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+                <footer class="msn-footer">
+            <div class="container">
+                <div class="msn-footer-grid">
+                    <div class="msn-footer-section">
+                        <h4>MSN Academy</h4>
+                        <ul class="msn-footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="courses.html">Courses</a></li>
+                            <li><a href="trainers.html">Team</a></li>
+                            <li><a href="certificate.html">Certificate</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="msn-footer-section">
+                        <h4>Courses</h4>
+                        <ul class="msn-footer-links">
+                            <li><a href="data_analyst.html">Data Analyst</a></li>
+                            <li><a href="python_programming.html">Python Programming</a></li>
+                            <li><a href="gen_ai.html">Generative AI</a></li>
+                            <li><a href="aspnet_core.html">ASP.NET Core</a></li>
+                            <li><a href="graphic_designing.html">Graphic Designing</a></li>
+                            <li><a href="digital_marketing.html">Digital Marketing</a></li>
+                            <li><a href="Frontend Development.html">Frontend Development</a></li>
+                            <li><a href="mern_stack.html">MERN Stack</a></li>
+                            <li><a href="wordpress_development.html">WordPress Development</a></li>
+                            <li><a href="competitive_programming.html">Competitive Programming</a></li>
+                        </ul>
+                    </div>
+                    <div class="msn-footer-section">
+                        <h4>Support</h4>
+                        <ul class="msn-footer-links">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="msn-footer-section msn-footer-contact">
+                        <h4>Contact</h4>
+                        <p>Email: msn.academy269@gmail.com</p>
+                        <p>Phone: +92 324 8290853</p>
+                        <div class="msn-social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="msn-footer-copyright">
+                    &copy; 2024 MSN Academy. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="JS/script.js"></script>
+</body>
+</html>

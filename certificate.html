@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>
+        MSN Academy - Certificate Verification
+    </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="CSS/style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-body-wrapper pb-8">
+        <header class="msn-header">
+            <div class="container">
+                <nav class="msn-header-nav">
+                    <div class="msn-header-brand">
+                        <img alt="MSN Academy logo" class="msn-logo" src="Images/logo.png" />
+                    </div>
+                    <ul class="msn-nav-links">
+                        <li><a href="index.html" class="msn-nav-link">Home</a></li>
+                        <li><a href="courses.html" class="msn-nav-link">Courses</a></li>
+                        <li><a href="trainers.html" class="msn-nav-link">Team</a></li>
+                        <li><a href="certificate.html" class="msn-nav-link active">Certificate</a></li>
+                        <li><a href="contact.html" class="msn-nav-link">Contact Us</a></li>
+                    </ul>
+                    <div class="msn-header-buttons">
+                        <a href="https://forms.gle/c82S9HnVPQCKf1vE8" class="msn-btn msn-btn-primary" target="_blank">Join Now</a>
+                        <a href="#" class="msn-btn msn-btn-secondary">Learn</a>
+                    </div>
+                    <button class="msn-mobile-menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="container main-content">
+            <section class="certificate-hero">
+                <div class="certificate-hero-content">
+                    <h2 class="certificate-hero-title">
+                        Certificate Verification
+                    </h2>
+                    <p class="certificate-hero-description">
+                        Easily verify your MSN Academy certificate. Enter your unique ID and role to check its authenticity.
+                    </p>
+                    <form class="certificate-form" id="verification-form">
+                        <div class="form-group">
+                            <label class="form-label" for="role">
+                                Choose Your Role
+                            </label>
+                            <select class="form-input" id="role" name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="student">Student</option>
+                                <option value="interns">Interns</option>
+                                <option value="Achievement">Achievement</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="certificate-code">
+                                Enter Certificate ID/Code
+                            </label>
+                            <input class="form-input" id="certificate-code" name="certificate-code" placeholder="Enter certificate ID or verification code" type="text" required/>
+                        </div>
+                        <button class="btn btn-red certificate-verify-btn" type="submit" id="verify-btn">
+                            <i class="fas fa-search"></i>
+                            Verify Certificate
+                        </button>
+                    </form>
+                    
+                    <!-- Loading State -->
+                    <div class="loading-state" id="loading-state" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Verifying certificate...</p>
+                    </div>
+                    
+                    <!-- Error State -->
+                    <div class="error-state" id="error-state" style="display: none;">
+                        <div class="error-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>Certificate Not Found</h3>
+                        <p id="error-message">The certificate code you entered could not be found. Please check the code and try again.</p>
+                        <button class="btn btn-secondary" onclick="resetForm()">Try Again</button>
+                    </div>
+                </div>
+                <div class="certificate-hero-visual" id="certificate-hero-visual">
+                    <div class="certificate-preview" id="certificate-preview">
+                        <img alt="MSN Academy certificate sample" class="certificate-image" id="hero-certificate-image" src="Certificates Designs/Student Course Completion Certificate.png"/>
+                        <div class="certificate-badge" id="certificate-badge" style="display: none;">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Verified</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Certificate Display Section -->
+            <section class="certificate-display-section" id="certificate-display" style="display: none;">
+                <div class="certificate-container">
+                    <div class="certificate-header">
+                        <h3>Certificate Verified Successfully!</h3>
+                        <div class="verification-badge">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Verified</span>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-details" id="certificate-details">
+                        <div class="certificate-image-container">
+                            <img id="verified-certificate-image" class="verified-certificate" src="" alt="Verified Certificate" style="width: 100%; max-width: 800px; height: auto;"/>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-actions">
+                        <button class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fas fa-search"></i>
+                            Verify Another Certificate
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="certificate-steps-section" id="steps-section">
+                <div class="steps-header">
+                    <h3 class="steps-title">Certificate Verification Made Simple</h3>
+                    <p class="steps-description">
+                        Verify the authenticity of your MSN Academy certificate online and share your achievement with others.
+                    </p>
+                </div>
+                <div class="steps-container">
+                    <div class="step-item">
+                        <div class="step-circle">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <h4 class="step-title">Choose Your Role</h4>
+                        <p class="step-description">Select whether you are a student or employer to proceed</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-circle">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h4 class="step-title">Enter Your ID</h4>
+                        <p class="step-description">Provide the unique certificate ID to verify authenticity</p>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-circle">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h4 class="step-title">See Your Certificate</h4>
+                        <p class="step-description">Click the button below to verify your certificate.</p>
+                    </div>
+                </div>
+                <div class="steps-cta">
+                    <button class="btn btn-red verify-now-btn">
+                        <i class="fas fa-shield-check"></i>
+                        Verify Now
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <footer class="msn-footer">
+            <div class="container">
+                <div class="msn-footer-grid">
+                    <div class="msn-footer-section">
+                        <h4>MSN Academy</h4>
+                        <ul class="msn-footer-links">
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="courses.html">Courses</a></li>
+                            <li><a href="trainers.html">Team</a></li>
+                            <li><a href="certificate.html">Certificate</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="msn-footer-section">
+                        <h4>Courses</h4>
+                        <ul class="msn-footer-links">
+                            <li><a href="data_analyst.html">Data Analyst</a></li>
+                            <li><a href="python_programming.html">Python Programming</a></li>
+                            <li><a href="gen_ai.html">Generative Artificial Intelligence (Gen AI)</a></li>
+                            <li><a href="aspnet_core.html">Software Engineering with ASP.NET Core</a></li>
+                            <li><a href="graphic_designing.html">Full Stack Graphic Designing with UI UX</a></li>
+                            <li><a href="digital_marketing.html">Digital Marketing with AI tools</a></li>
+                            <li><a href="frontend_development.html">Frontend Development</a></li>
+                            <li><a href="mern_stack.html">MERN Stack</a></li>
+                            <li><a href="wordpress_development.html">Wordpress Development</a></li>
+                            <li><a href="competitive_programming.html">Competitive Programming</a></li>
+                        </ul>
+                    </div>
+                    <div class="msn-footer-section">
+                        <h4>Support</h4>
+                        <ul class="msn-footer-links">
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">FAQs</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="msn-footer-section msn-footer-contact">
+                        <h4>Contact</h4>
+                        <p>Email: msn.academy269@gmail.com</p>
+                        <p>Phone: +92 324 8290853</p>
+                        <div class="msn-social-icons">
+                            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="msn-footer-copyright">
+                    © 2024 MSN Academy. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal" id="message-modal">
+        <div class="modal-content">
+            <p class="text-lg font-semibold mb-4">
+                Success!
+            </p>
+            <p>
+                Your certificate has been verified.
+            </p>
+            <button class="btn btn-dark close-modal-btn mt-4" id="close-modal">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script src="JS/script.js"></script>
+</body>
+</html>
