@@ -44,65 +44,255 @@ function updateImageBasedOnRole() {
     }
 }
 
-// Mobile navigation
-const mobileNav = {
-    toggle: document.querySelector('.msn-mobile-menu-toggle'),
-    links: document.querySelector('.msn-nav-links'),
-    icon: null,
+// Enhanced Mobile Navigation System
+class MobileNavigation {
+    constructor() {
+        this.toggle = null;
+        this.links = null;
+        this.icon = null;
+        this.isInitialized = false;
+        this.isActive = false;
+    }
     
     init() {
-        this.icon = this.toggle?.querySelector('i');
-        if (this.toggle && this.links) {
-            this.toggle.addEventListener('click', this.handleToggle.bind(this));
-            this.setupCloseEvents();
+        if (this.isInitialized) return;
+        
+        // Wait for DOM to be fully loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => this.initElements());
+        } else {
+            this.initElements();
         }
-    },
+    }
+    
+    initElements() {
+        this.toggle = document.querySelector('.msn-mobile-menu-toggle');
+        this.links = document.querySelector('.msn-nav-links');
+        this.icon = this.toggle?.querySelector('i');
+        
+        if (this.toggle && this.links && this.icon) {
+            this.setupEventListeners();
+            this.isInitialized = true;
+            console.log('Mobile navigation initialized successfully');
+        } else {
+            console.warn('Mobile navigation elements not found - retrying in 100ms');
+            setTimeout(() => this.initElements(), 100);
+        }
+    }
+    
+    setupEventListeners() {
+        // Toggle button click
+        this.toggle.addEventListener('click', (e) => this.handleToggle(e));
+        
+        // Close on nav link clicks
+        this.links.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => this.close());
+        });
+        
+        // Close on outside clicks
+        document.addEventListener('click', (e) => this.handleOutsideClick(e));
+        
+        // Close on window resize
+        window.addEventListener('resize', () => this.handleResize());
+        
+        // Close on escape key
+        document.addEventListener('keydown', (e) => this.handleKeydown(e));
+    }
     
     handleToggle(e) {
         e.preventDefault();
         e.stopPropagation();
-        this.links.classList.toggle('mobile-active');
-        this.updateIcon();
-    },
+        
+        this.isActive = !this.isActive;
+        
+        // Add active class to toggle button
+        this.toggle.classList.toggle('active', this.isActive);
+        
+        if (this.isActive) {
+            this.open();
+        } else {
+            this.close();
+        }
+    }
     
-    updateIcon() {
-        if (!this.icon) return;
-        const isActive = this.links.classList.contains('mobile-active');
-        this.icon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    },
+    open() {
+        this.links.classList.add('mobile-active');
+        this.toggle.classList.add('active');
+        this.icon.classList.remove('fa-bars');
+        this.icon.classList.add('fa-times');
+        document.body.style.overflow = 'hidden';
+        console.log('Mobile menu opened');
+    }
     
     close() {
+        this.isActive = false;
         this.links.classList.remove('mobile-active');
-        this.updateIcon();
-    },
+        this.toggle.classList.remove('active');
+        this.icon.classList.remove('fa-times');
+        this.icon.classList.add('fa-bars');
+        document.body.style.overflow = '';
+        console.log('Mobile menu closed');
+    }
     
-    setupCloseEvents() {
-        // Close on outside click
-        document.addEventListener('click', (e) => {
-            if (!this.toggle.contains(e.target) && 
-                !this.links.contains(e.target) &&
-                this.links.classList.contains('mobile-active')) {
-                this.close();
+    updateIcon(isActive) {
+        if (!this.icon) return;
+        
+        this.icon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
+    }
+    
+    
+    handleOutsideClick(e) {
+        if (!this.isActive || !this.toggle || !this.links) return;
+        
+        // Only close if clicking outside both toggle and nav links
+        if (!this.toggle.contains(e.target) && !this.links.contains(e.target)) {
+            this.close();
+        }
+    }
+    
+    handleResize() {
+        if (window.innerWidth > 768 && this.isActive) {
+            this.close();
+        }
+    }
+    
+    handleKeydown(e) {
+        if (e.key === 'Escape' && this.isActive) {
+            this.close();
+        }
+    }
+}
+
+// Create global instance
+const mobileNav = new MobileNavigation();
+
+// Simple mobile navigation fallback
+function initSimpleMobileNav() {
+    console.log('Attempting to initialize mobile nav...');
+    
+    // Wait a bit for DOM to be ready
+    setTimeout(() => {
+        const toggle = document.querySelector('.msn-mobile-menu-toggle');
+        const navLinks = document.querySelector('.msn-nav-links');
+        
+        console.log('Toggle found:', !!toggle);
+        console.log('NavLinks found:', !!navLinks);
+        
+        if (!toggle || !navLinks) {
+            console.error('Mobile nav elements not found!');
+            return;
+        }
+        
+        console.log('Adding click listener to toggle...');
+        
+        // Remove any existing listeners
+        const newToggle = toggle.cloneNode(true);
+        toggle.parentNode.replaceChild(newToggle, toggle);
+        
+        newToggle.addEventListener('click', function(e) {
+            console.log('Toggle clicked!');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isActive = navLinks.classList.contains('mobile-active');
+            const icon = newToggle.querySelector('i');
+            
+            console.log('Current state - isActive:', isActive);
+            
+            if (isActive) {
+                navLinks.classList.remove('mobile-active');
+                newToggle.classList.remove('active');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+                document.body.style.overflow = '';
+                console.log('Menu CLOSED');
+            } else {
+                navLinks.classList.add('mobile-active');
+                newToggle.classList.add('active');
+                if (icon) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+                document.body.style.overflow = 'hidden';
+                console.log('Menu OPENED');
             }
         });
         
-        // Close on nav link click
-        this.links.querySelectorAll('a').forEach(link => {
+        // Close on nav link clicks
+        navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                if (this.links.classList.contains('mobile-active')) {
-                    this.close();
+                console.log('Nav link clicked - closing menu');
+                navLinks.classList.remove('mobile-active');
+                newToggle.classList.remove('active');
+                const icon = newToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
                 }
+                document.body.style.overflow = '';
             });
         });
         
-        // Close on window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768 && this.links.classList.contains('mobile-active')) {
+        console.log('Mobile nav setup complete!');
+    }, 100);
+}
+
+// Contact Modal System
+class ContactModal {
+    constructor() {
+        this.modal = null;
+        this.openBtn = null;
+        this.closeBtn = null;
+        this.overlay = null;
+    }
+    
+    init() {
+        this.modal = document.getElementById('contact-modal');
+        this.openBtn = document.getElementById('contact-btn');
+        this.closeBtn = document.querySelector('.close-modal');
+        this.overlay = document.querySelector('.modal-overlay');
+        
+        if (this.modal && this.openBtn) {
+            this.setupEventListeners();
+        }
+    }
+    
+    setupEventListeners() {
+        this.openBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.open();
+        });
+        
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => this.close());
+        }
+        
+        if (this.overlay) {
+            this.overlay.addEventListener('click', () => this.close());
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
                 this.close();
             }
         });
     }
-};
+    
+    open() {
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    
+    close() {
+        this.modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Create global instances
+const contactModalInstance = new ContactModal();
 
 // Certificate verification
 const certificateVerifier = {
@@ -140,8 +330,7 @@ const certificateVerifier = {
         } catch (error) {
             elements.loading.style.display = 'none';
             const message = error.message.includes('fetch') ? 
-                           'Network error. Please check your connection.' :
-                           'An error occurred. Please try again.';
+                           'Network error. Please check your connection.' : 'An error occurred. Please try again.';
             this.showError(message, elements.error);
         }
     },
@@ -183,7 +372,7 @@ const certificateVerifier = {
 };
 
 // Contact modal
-const contactModal = {
+const contactModalSimple = {
     modal: null,
     
     init() {
@@ -205,7 +394,7 @@ const contactModal = {
     close() {
         if (this.modal) {
             this.modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         }
     }
 };
@@ -226,13 +415,16 @@ function initSmoothScroll() {
 // Global functions for HTML onclick handlers
 function verifyCertificate() { certificateVerifier.verify(); }
 function resetForm() { certificateVerifier.reset(); }
-function openContactModal() { contactModal.open(); }
-function closeContactModal() { contactModal.close(); }
+function openContactModal() { contactModalSimple.open(); }
+function closeContactModal() { contactModalSimple.close(); }
 
-// Initialize on DOM load
+// Initialize on DOM load - Enhanced for all pages
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize mobile navigation with retry mechanism
     mobileNav.init();
-    contactModal.init();
+    
+    // Initialize other components
+    contactModalSimple.init();
     initSmoothScroll();
     updateImageBasedOnRole();
     
@@ -240,6 +432,17 @@ document.addEventListener('DOMContentLoaded', function() {
     if (roleSelect) {
         roleSelect.addEventListener('change', updateImageBasedOnRole);
     }
+    
+    // Ensure mobile navigation works on all pages
+    setTimeout(() => {
+        if (!mobileNav.isInitialized) {
+            console.log('Retrying mobile navigation initialization...');
+            mobileNav.init();
+        }
+    }, 500);
+    
+    // Debug log
+    console.log('All components initialized');
 });
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -266,71 +469,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Mobile menu functionality
-    const menuToggle = document.querySelector('.msn-mobile-menu-toggle');
-    const navLinks = document.querySelector('.msn-nav-links');
-    const menuIcon = menuToggle ? menuToggle.querySelector('i') : null;
-    
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            // Toggle menu
-            navLinks.classList.toggle('mobile-active');
-            
-            // Toggle icon
-            if (menuIcon) {
-                if (navLinks.classList.contains('mobile-active')) {
-                    menuIcon.classList.remove('fa-bars');
-                    menuIcon.classList.add('fa-times');
-                } else {
-                    menuIcon.classList.remove('fa-times');
-                    menuIcon.classList.add('fa-bars');
-                }
-            }
-        });
-    }
-
-    // Close mobile menu when clicking on nav links
-    const navLinkItems = document.querySelectorAll('.msn-nav-link');
-    navLinkItems.forEach(link => {
-        link.addEventListener('click', function() {
-            if (navLinks && navLinks.classList.contains('mobile-active')) {
-                navLinks.classList.remove('mobile-active');
-                if (menuIcon) {
-                    menuIcon.classList.remove('fa-times');
-                    menuIcon.classList.add('fa-bars');
-                }
-            }
-        });
-    });
-
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', function(event) {
-        if (menuToggle && navLinks && 
-            !menuToggle.contains(event.target) && 
-            !navLinks.contains(event.target) &&
-            navLinks.classList.contains('mobile-active')) {
-            
-            navLinks.classList.remove('mobile-active');
-            if (menuIcon) {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            }
-        }
-    });
-
-    // Handle window resize
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 768 && navLinks && navLinks.classList.contains('mobile-active')) {
-            navLinks.classList.remove('mobile-active');
-            if (menuIcon) {
-                menuIcon.classList.remove('fa-times');
-                menuIcon.classList.add('fa-bars');
-            }
-        }
-    });
+    // Initialize mobile navigation (handled by mobileNav object above)
+    // This section is now handled by the enhanced mobileNav object
 });
 
 // Certificate verification functionality
@@ -562,8 +702,88 @@ function initScrollAnimations() {
     animatedElements.forEach(el => observer.observe(el));
 }
 
-// Initialize all functionality
-document.addEventListener('DOMContentLoaded', () => {
+// Simplified Mobile Navigation - WORKING VERSION
+function initMobileNavigation() {
+    const toggle = document.querySelector('.msn-mobile-menu-toggle');
+    const navLinks = document.querySelector('.msn-nav-links');
+    
+    if (!toggle || !navLinks) {
+        console.log('Mobile nav elements not found');
+        return;
+    }
+    
+    console.log('Mobile nav elements found - setting up...');
+    
+    toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const isActive = navLinks.classList.contains('mobile-active');
+        const icon = toggle.querySelector('i');
+        
+        if (isActive) {
+            // Close menu
+            navLinks.classList.remove('mobile-active');
+            toggle.classList.remove('active', 'menu-open');
+            if (icon) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+            document.body.style.overflow = '';
+        } else {
+            // Open menu
+            navLinks.classList.add('mobile-active');
+            toggle.classList.add('active', 'menu-open');
+            if (icon) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+            document.body.style.overflow = 'hidden';
+        }
+    });
+    
+    // Close menu when clicking nav links
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navLinks.classList.remove('mobile-active');
+            toggle.classList.remove('active', 'menu-open');
+            const icon = toggle.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+            document.body.style.overflow = '';
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
+            if (navLinks.classList.contains('mobile-active')) {
+                navLinks.classList.remove('mobile-active');
+                toggle.classList.remove('active', 'menu-open');
+                const icon = toggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+                document.body.style.overflow = '';
+            }
+        }
+    });
+    
+    console.log('Mobile navigation initialized successfully!');
+}
+
+// Initialize all functionality - Consolidated initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize mobile navigation
+    initMobileNavigation();
+    
+    // Initialize other components
+    contactModalSimple.init();
+    initSmoothScroll();
+    updateImageBasedOnRole();
     initCertificateVerification();
     initContactForm();
     initScrollAnimations();
