@@ -216,6 +216,7 @@ body {
     font-size: 1.25rem;
     font-weight: 700;
     color: var(--primary-dark);
+    padding-left: 20px;
     margin-bottom: 0.75rem;
 }
 
@@ -223,6 +224,7 @@ body {
     color: var(--text-gray);
     font-size: 0.875rem;
     line-height: 1.5;
+    padding-left: 20px;
     margin-bottom: 1rem;
 }
 
