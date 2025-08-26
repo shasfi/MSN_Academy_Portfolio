@@ -593,14 +593,21 @@ function displayCertificate(certificateData, role) {
     form.style.display = 'none';
     stepsSection.style.display = 'none';
     
-    // Determine certificate image based on role
+    // Determine certificate image based on role or certificate type from API
     let certificateImageSrc = '';
-    if (role === 'student') {
-        certificateImageSrc = 'Certificates Designs/Student Course Completion Certificate Example.png';
-    } else if (role === 'interns') {
-        certificateImageSrc = 'Certificates Designs/Internship Completion Example.png';
-    } else if (role === 'Achievement') {
-        certificateImageSrc = 'Certificates Designs/MSN Competition Certificate example for app and web.png';
+    
+    // Check if API provides certificate image URL
+    if (certificateData.certificateImageUrl) {
+        certificateImageSrc = certificateData.certificateImageUrl;
+    } else {
+        // Fallback to role-based images
+        if (role === 'student') {
+            certificateImageSrc = 'Certificates Designs/Student Course Completion Certificate Example.png';
+        } else if (role === 'interns') {
+            certificateImageSrc = 'Certificates Designs/Internship Completion Example.png';
+        } else if (role === 'Achievement') {
+            certificateImageSrc = 'Certificates Designs/MSN Competition Certificate example for app and web.png';
+        }
     }
     
     // Update hero section image
@@ -616,6 +623,32 @@ function displayCertificate(certificateData, role) {
     if (verifiedCertificateImage) {
         verifiedCertificateImage.src = certificateImageSrc;
         verifiedCertificateImage.alt = 'Verified Certificate';
+    }
+    
+    // Display certificate information from API
+    if (certificateDetails) {
+        certificateDetails.innerHTML = `
+            <div class="certificate-image-container">
+                <img id="verified-certificate-image" class="verified-certificate" src="${certificateImageSrc}" alt="Verified Certificate" style="width: 100%; max-width: 800px; height: auto;"/>
+            </div>
+            <div class="certificate-info-section">
+                <div class="certificate-data">
+                    <h4>Certificate Information:</h4>
+                    <div class="certificate-data-grid">
+                        ${certificateData.studentName ? `<div class="data-item"><strong>Student Name:</strong> ${certificateData.studentName}</div>` : ''}
+                        ${certificateData.courseName ? `<div class="data-item"><strong>Course:</strong> ${certificateData.courseName}</div>` : ''}
+                        ${certificateData.certificateId ? `<div class="data-item"><strong>Certificate ID:</strong> ${certificateData.certificateId}</div>` : ''}
+                        ${certificateData.issueDate ? `<div class="data-item"><strong>Issue Date:</strong> ${new Date(certificateData.issueDate).toLocaleDateString()}</div>` : ''}
+                        ${certificateData.completionDate ? `<div class="data-item"><strong>Completion Date:</strong> ${new Date(certificateData.completionDate).toLocaleDateString()}</div>` : ''}
+                        ${certificateData.grade ? `<div class="data-item"><strong>Grade:</strong> ${certificateData.grade}</div>` : ''}
+                        ${certificateData.instructor ? `<div class="data-item"><strong>Instructor:</strong> ${certificateData.instructor}</div>` : ''}
+                        ${certificateData.duration ? `<div class="data-item"><strong>Duration:</strong> ${certificateData.duration}</div>` : ''}
+                        ${certificateData.skills ? `<div class="data-item"><strong>Skills Covered:</strong> ${Array.isArray(certificateData.skills) ? certificateData.skills.join(', ') : certificateData.skills}</div>` : ''}
+                        ${certificateData.status ? `<div class="data-item"><strong>Status:</strong> <span class="status-badge ${certificateData.status.toLowerCase()}">${certificateData.status}</span></div>` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
     }
     
     certificateDisplay.style.display = 'block';
