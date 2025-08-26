@@ -1,3 +1,7 @@
+// MSN Academy Portfolio - Optimized JavaScript
+// All duplicate code removed and logos properly displayed
+
+// Accordion functionality
 function toggleAccordion(id) {
     const content = document.getElementById(id);
     const icon = document.getElementById(id + "-icon");
@@ -9,7 +13,6 @@ function toggleAccordion(id) {
         }
     });
 
-    // Toggle current accordion
     content.classList.toggle("visible");
     if (icon) icon.classList.toggle("rotate-180");
     if (button) button.setAttribute('aria-expanded', content.classList.contains('visible'));
@@ -20,31 +23,51 @@ function updateImageBasedOnRole() {
     const roleSelect = document.getElementById('role');
     const imageContainer = document.getElementById('role-image-container');
     const roleImage = document.getElementById('role-image');
+    const heroImage = document.getElementById('hero-certificate-image');
     
-    if (!roleSelect || !imageContainer || !roleImage) return;
-    
-    const roleImages = {
-        'student': 'Images/student.png',
-        'professional': 'Images/professional.png',
-        'entrepreneur': 'Images/entrepreneur.png',
-        'freelancer': 'Images/freelancer.png',
-        'job-seeker': 'Images/job-seeker.png',
-        'career-changer': 'Images/career-changer.png'
-    };
+    if (!roleSelect) return;
     
     const selectedRole = roleSelect.value;
-    if (selectedRole && roleImages[selectedRole]) {
-        roleImage.src = roleImages[selectedRole];
-        roleImage.alt = `${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} illustration`;
-        imageContainer.style.display = 'block';
-        roleImage.style.opacity = '0';
-        setTimeout(() => roleImage.style.opacity = '1', 50);
-    } else {
-        imageContainer.style.display = 'none';
+    
+    // Update role images if elements exist
+    if (imageContainer && roleImage) {
+        const roleImages = {
+            'student': 'Images/student.png',
+            'professional': 'Images/professional.png',
+            'entrepreneur': 'Images/entrepreneur.png',
+            'freelancer': 'Images/freelancer.png',
+            'job-seeker': 'Images/job-seeker.png',
+            'career-changer': 'Images/career-changer.png'
+        };
+        
+        if (selectedRole && roleImages[selectedRole]) {
+            roleImage.src = roleImages[selectedRole];
+            roleImage.alt = `${selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1)} illustration`;
+            imageContainer.style.display = 'block';
+            roleImage.style.opacity = '0';
+            setTimeout(() => roleImage.style.opacity = '1', 50);
+        } else {
+            imageContainer.style.display = 'none';
+        }
+    }
+    
+    // Update hero certificate image if element exists
+    if (heroImage) {
+        let imageSrc = '';
+        if (selectedRole === 'student') {
+            imageSrc = 'Certificates Designs/Student Course Completion Certificate.png';
+        } else if (selectedRole === 'interns') {
+            imageSrc = 'Certificates Designs/Intern Certificate.png';
+        } else if (selectedRole === 'Achievement') {
+            imageSrc = 'Certificates Designs/MSN Competition Certificate for app and web.png';
+        } else {
+            imageSrc = 'Certificates Designs/Student Course Completion Certificate.png';
+        }
+        heroImage.src = imageSrc;
     }
 }
 
-// Enhanced Mobile Navigation System
+// Mobile Navigation System - Single Implementation
 class MobileNavigation {
     constructor() {
         this.toggle = null;
@@ -57,7 +80,6 @@ class MobileNavigation {
     init() {
         if (this.isInitialized) return;
         
-        // Wait for DOM to be fully loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => this.initElements());
         } else {
@@ -73,29 +95,20 @@ class MobileNavigation {
         if (this.toggle && this.links && this.icon) {
             this.setupEventListeners();
             this.isInitialized = true;
-            console.log('Mobile navigation initialized successfully');
         } else {
-            console.warn('Mobile navigation elements not found - retrying in 100ms');
             setTimeout(() => this.initElements(), 100);
         }
     }
     
     setupEventListeners() {
-        // Toggle button click
         this.toggle.addEventListener('click', (e) => this.handleToggle(e));
         
-        // Close on nav link clicks
         this.links.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => this.close());
         });
         
-        // Close on outside clicks
         document.addEventListener('click', (e) => this.handleOutsideClick(e));
-        
-        // Close on window resize
         window.addEventListener('resize', () => this.handleResize());
-        
-        // Close on escape key
         document.addEventListener('keydown', (e) => this.handleKeydown(e));
     }
     
@@ -104,8 +117,6 @@ class MobileNavigation {
         e.stopPropagation();
         
         this.isActive = !this.isActive;
-        
-        // Add active class to toggle button
         this.toggle.classList.toggle('active', this.isActive);
         
         if (this.isActive) {
@@ -121,7 +132,6 @@ class MobileNavigation {
         this.icon.classList.remove('fa-bars');
         this.icon.classList.add('fa-times');
         document.body.style.overflow = 'hidden';
-        console.log('Mobile menu opened');
     }
     
     close() {
@@ -131,20 +141,11 @@ class MobileNavigation {
         this.icon.classList.remove('fa-times');
         this.icon.classList.add('fa-bars');
         document.body.style.overflow = '';
-        console.log('Mobile menu closed');
     }
-    
-    updateIcon(isActive) {
-        if (!this.icon) return;
-        
-        this.icon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    }
-    
     
     handleOutsideClick(e) {
         if (!this.isActive || !this.toggle || !this.links) return;
         
-        // Only close if clicking outside both toggle and nav links
         if (!this.toggle.contains(e.target) && !this.links.contains(e.target)) {
             this.close();
         }
@@ -163,217 +164,11 @@ class MobileNavigation {
     }
 }
 
-// Create global instance
-const mobileNav = new MobileNavigation();
-
-// Simple mobile navigation fallback
-function initSimpleMobileNav() {
-    console.log('Attempting to initialize mobile nav...');
-    
-    // Wait a bit for DOM to be ready
-    setTimeout(() => {
-        const toggle = document.querySelector('.msn-mobile-menu-toggle');
-        const navLinks = document.querySelector('.msn-nav-links');
-        
-        console.log('Toggle found:', !!toggle);
-        console.log('NavLinks found:', !!navLinks);
-        
-        if (!toggle || !navLinks) {
-            console.error('Mobile nav elements not found!');
-            return;
-        }
-        
-        console.log('Adding click listener to toggle...');
-        
-        // Remove any existing listeners
-        const newToggle = toggle.cloneNode(true);
-        toggle.parentNode.replaceChild(newToggle, toggle);
-        
-        newToggle.addEventListener('click', function(e) {
-            console.log('Toggle clicked!');
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const isActive = navLinks.classList.contains('mobile-active');
-            const icon = newToggle.querySelector('i');
-            
-            console.log('Current state - isActive:', isActive);
-            
-            if (isActive) {
-                navLinks.classList.remove('mobile-active');
-                newToggle.classList.remove('active');
-                if (icon) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-                document.body.style.overflow = '';
-                console.log('Menu CLOSED');
-            } else {
-                navLinks.classList.add('mobile-active');
-                newToggle.classList.add('active');
-                if (icon) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                }
-                document.body.style.overflow = 'hidden';
-                console.log('Menu OPENED');
-            }
-        });
-        
-        // Close on nav link clicks
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                console.log('Nav link clicked - closing menu');
-                navLinks.classList.remove('mobile-active');
-                newToggle.classList.remove('active');
-                const icon = newToggle.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-                document.body.style.overflow = '';
-            });
-        });
-        
-        console.log('Mobile nav setup complete!');
-    }, 100);
-}
-
-// Contact Modal System
+// Contact Modal System - Single Implementation
 class ContactModal {
     constructor() {
         this.modal = null;
-        this.openBtn = null;
-        this.closeBtn = null;
-        this.overlay = null;
     }
-    
-    init() {
-        this.modal = document.getElementById('contact-modal');
-        this.openBtn = document.getElementById('contact-btn');
-        this.closeBtn = document.querySelector('.close-modal');
-        this.overlay = document.querySelector('.modal-overlay');
-        
-        if (this.modal && this.openBtn) {
-            this.setupEventListeners();
-        }
-    }
-    
-    setupEventListeners() {
-        this.openBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.open();
-        });
-        
-        if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', () => this.close());
-        }
-        
-        if (this.overlay) {
-            this.overlay.addEventListener('click', () => this.close());
-        }
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
-                this.close();
-            }
-        });
-    }
-    
-    open() {
-        this.modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-    
-    close() {
-        this.modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-// Create global instances
-const contactModalInstance = new ContactModal();
-
-// Certificate verification
-const certificateVerifier = {
-    async verify() {
-        const certificateId = document.getElementById('certificate-id').value.trim();
-        const elements = {
-            result: document.getElementById('verification-result'),
-            loading: document.getElementById('loading'),
-            error: document.getElementById('error')
-        };
-        
-        this.resetDisplay(elements);
-        
-        if (!certificateId) {
-            this.showError('Please enter a certificate ID', elements.error);
-            return;
-        }
-        
-        elements.loading.style.display = 'block';
-        
-        try {
-            const response = await fetch(`/api/certificates/${certificateId}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            });
-            
-            elements.loading.style.display = 'none';
-            
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            
-            const data = await response.json();
-            data.valid ? this.displayResult(data, elements.result) : 
-                        this.showError('Certificate not found or invalid', elements.error);
-                        
-        } catch (error) {
-            elements.loading.style.display = 'none';
-            const message = error.message.includes('fetch') ? 
-                           'Network error. Please check your connection.' : 'An error occurred. Please try again.';
-            this.showError(message, elements.error);
-        }
-    },
-    
-    resetDisplay(elements) {
-        Object.values(elements).forEach(el => el.style.display = 'none');
-    },
-    
-    showError(message, errorElement) {
-        errorElement.textContent = message;
-        errorElement.style.display = 'block';
-    },
-    
-    displayResult(data, resultElement) {
-        resultElement.innerHTML = `
-            <div class="certificate-info">
-                <div class="certificate-header">
-                    <i class="fas fa-certificate certificate-icon"></i>
-                    <h3>Certificate Verified</h3>
-                </div>
-                <div class="certificate-details">
-                    <p><strong>Student:</strong> ${data.studentName}</p>
-                    <p><strong>Course:</strong> ${data.courseName}</p>
-                    <p><strong>Issue Date:</strong> ${new Date(data.issueDate).toLocaleDateString()}</p>
-                    <p><strong>ID:</strong> ${data.certificateId}</p>
-                    ${data.grade ? `<p><strong>Grade:</strong> ${data.grade}</p>` : ''}
-                </div>
-            </div>
-        `;
-        resultElement.style.display = 'block';
-    },
-    
-    reset() {
-        document.getElementById('certificate-id').value = '';
-        ['verification-result', 'error', 'loading'].forEach(id => {
-            document.getElementById(id).style.display = 'none';
-        });
-    }
-};
-
-// Contact modal
-const contactModalSimple = {
-    modal: null,
     
     init() {
         this.modal = document.getElementById('contact-modal');
@@ -382,14 +177,14 @@ const contactModalSimple = {
                 if (e.target === this.modal) this.close();
             });
         }
-    },
+    }
     
     open() {
         if (this.modal) {
             this.modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
-    },
+    }
     
     close() {
         if (this.modal) {
@@ -397,7 +192,7 @@ const contactModalSimple = {
             document.body.style.overflow = '';
         }
     }
-};
+}
 
 // Smooth scrolling
 function initSmoothScroll() {
@@ -412,76 +207,20 @@ function initSmoothScroll() {
     });
 }
 
+// Global instances
+const mobileNav = new MobileNavigation();
+const contactModal = new ContactModal();
+
 // Global functions for HTML onclick handlers
-function verifyCertificate() { certificateVerifier.verify(); }
-function resetForm() { certificateVerifier.reset(); }
-function openContactModal() { contactModalSimple.open(); }
-function closeContactModal() { contactModalSimple.close(); }
+function openContactModal() { contactModal.open(); }
+function closeContactModal() { contactModal.close(); }
 
-// Initialize on DOM load - Enhanced for all pages
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize mobile navigation with retry mechanism
-    mobileNav.init();
-    
-    // Initialize other components
-    contactModalSimple.init();
-    initSmoothScroll();
-    updateImageBasedOnRole();
-    
-    const roleSelect = document.getElementById('role');
-    if (roleSelect) {
-        roleSelect.addEventListener('change', updateImageBasedOnRole);
-    }
-    
-    // Ensure mobile navigation works on all pages
-    setTimeout(() => {
-        if (!mobileNav.isInitialized) {
-            console.log('Retrying mobile navigation initialization...');
-            mobileNav.init();
-        }
-    }, 500);
-    
-    // Debug log
-    console.log('All components initialized');
-});
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Role-based image update functionality
-    const roleSelect = document.getElementById('role');
-    const heroImage = document.getElementById('hero-certificate-image');
-    
-    if (roleSelect && heroImage) {
-        roleSelect.addEventListener('change', function() {
-            const selectedRole = this.value;
-            let imageSrc = '';
-            
-            if (selectedRole === 'student') {
-                imageSrc = 'Certificates Designs/Student Course Completion Certificate.png';
-            } else if (selectedRole === 'interns') {
-                imageSrc = 'Certificates Designs/Intern Certificate.png';
-            } else if (selectedRole === 'Achievement') {
-                imageSrc = 'Certificates Designs/MSN Competition Certificate for app and web.png';
-            } else {
-                imageSrc = 'Certificates Designs/Student Course Completion Certificate.png';
-            }
-            
-            heroImage.src = imageSrc;
-        });
-    }
-    
-    // Initialize mobile navigation (handled by mobileNav object above)
-    // This section is now handled by the enhanced mobileNav object
-});
-
-// Certificate verification functionality
+// Certificate verification functionality - Unified Implementation
 function initCertificateVerification() {
     const form = document.getElementById('verification-form');
-    const loadingState = document.getElementById('loading-state');
-    const errorState = document.getElementById('error-state');
-    const certificateDisplay = document.getElementById('certificate-display');
-    const stepsSection = document.getElementById('steps-section');
-    const modal = document.getElementById('message-modal');
     const closeModal = document.getElementById('close-modal');
+    const modal = document.getElementById('message-modal');
 
     if (form) {
         form.addEventListener('submit', async function(e) {
@@ -504,21 +243,22 @@ function initCertificateVerification() {
             modal.style.display = 'none';
         });
     }
+    
+    // Initialize course-specific forms
+    initCoursePageCertificateVerification();
 }
 
-// API call to verify certificate
-async function verifyCertificate(code, role) {
-    const loadingState = document.getElementById('loading-state');
-    const errorState = document.getElementById('error-state');
-    const certificateDisplay = document.getElementById('certificate-display');
-    const stepsSection = document.getElementById('steps-section');
-    const form = document.getElementById('verification-form');
-    
-    // Show loading state
+// Unified API call to verify certificate
+async function verifyCertificate(code, selectedRole) {
     showLoading();
     
+    console.log('Verifying certificate with code:', code);
+    
     try {
-        const response = await fetch(`https://msn-certificate-application.vercel.app/api/certificate/getbycode/${code}`, {
+        const apiUrl = `https://msn-certificate-application.vercel.app/api/certificate/getbycode/${encodeURIComponent(code)}`;
+        console.log('API URL:', apiUrl);
+        
+        const response = await fetch(apiUrl, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -526,15 +266,38 @@ async function verifyCertificate(code, role) {
             }
         });
         
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+        
         if (response.ok) {
             const certificateData = await response.json();
-            displayCertificate(certificateData, role);
-        } else if (response.status === 404) {
-            showError('Certificate not found. Please check your certificate code and try again.');
-        } else if (response.status === 500) {
-            showError('Server error occurred. Please try again later or contact support.');
+            console.log('Certificate data received:', certificateData);
+            
+            // Check if the certificate data is valid
+            if (certificateData && (certificateData.recipient_name || certificateData.student_name)) {
+                // Validate that selected role matches certificate role
+                if (certificateData.role === selectedRole) {
+                    displayCertificate(certificateData);
+                } else {
+                    showError(`Certificate role mismatch. This certificate is for ${certificateData.role}, but you selected ${selectedRole}. Please select the correct role.`);
+                }
+            } else {
+                console.log('Invalid certificate data structure:', certificateData);
+                showError('Certificate data is invalid. Please contact support.');
+            }
         } else {
-            showError('An error occurred while verifying the certificate. Please try again.');
+            const errorText = await response.text();
+            console.log('Error response:', errorText);
+            
+            if (response.status === 404) {
+                showError('Certificate not found. Please check your certificate code and try again.');
+            } else if (response.status === 500) {
+                showError('Server error occurred. Please try again later or contact support.');
+            } else if (response.status === 0) {
+                showError('Network error. Please check your internet connection or try again later.');
+            } else {
+                showError(`An error occurred while verifying the certificate. Status: ${response.status}. Please try again or contact support.`);
+            }
         }
     } catch (error) {
         console.error('Certificate verification error:', error);
@@ -544,117 +307,339 @@ async function verifyCertificate(code, role) {
 
 // Show loading state
 function showLoading() {
-    const loadingState = document.getElementById('loading-state');
-    const errorState = document.getElementById('error-state');
-    const certificateDisplay = document.getElementById('certificate-display');
-    const stepsSection = document.getElementById('steps-section');
-    const form = document.getElementById('verification-form');
+    const elements = {
+        loadingState: document.getElementById('loading-state'),
+        errorState: document.getElementById('error-state'),
+        certificateDisplay: document.getElementById('certificate-display'),
+        stepsSection: document.getElementById('steps-section'),
+        form: document.getElementById('verification-form')
+    };
     
-    form.style.display = 'none';
-    errorState.style.display = 'none';
-    certificateDisplay.style.display = 'none';
-    stepsSection.style.display = 'none';
-    loadingState.style.display = 'block';
+    Object.values(elements).forEach(el => {
+        if (el) el.style.display = 'none';
+    });
+    
+    if (elements.loadingState) elements.loadingState.style.display = 'block';
 }
 
 // Show error state
 function showError(message) {
-    const loadingState = document.getElementById('loading-state');
-    const errorState = document.getElementById('error-state');
-    const certificateDisplay = document.getElementById('certificate-display');
-    const stepsSection = document.getElementById('steps-section');
-    const form = document.getElementById('verification-form');
-    const errorMessage = document.getElementById('error-message');
+    const elements = {
+        loadingState: document.getElementById('loading-state'),
+        errorState: document.getElementById('error-state'),
+        certificateDisplay: document.getElementById('certificate-display'),
+        stepsSection: document.getElementById('steps-section'),
+        form: document.getElementById('verification-form'),
+        errorMessage: document.getElementById('error-message')
+    };
     
-    loadingState.style.display = 'none';
-    form.style.display = 'none';
-    certificateDisplay.style.display = 'none';
-    stepsSection.style.display = 'none';
+    Object.values(elements).forEach(el => {
+        if (el && el.id !== 'error-state') el.style.display = 'none';
+    });
     
-    errorMessage.textContent = message;
-    errorState.style.display = 'block';
+    if (elements.errorMessage) elements.errorMessage.textContent = message;
+    if (elements.errorState) elements.errorState.style.display = 'block';
 }
 
-// Display certificate details
-function displayCertificate(certificateData, role) {
-    const loadingState = document.getElementById('loading-state');
-    const errorState = document.getElementById('error-state');
-    const certificateDisplay = document.getElementById('certificate-display');
-    const stepsSection = document.getElementById('steps-section');
-    const form = document.getElementById('verification-form');
-    const certificateDetails = document.getElementById('certificate-details');
-    const heroImage = document.getElementById('hero-certificate-image');
-    const certificateBadge = document.getElementById('certificate-badge');
-    const verifiedCertificateImage = document.getElementById('verified-certificate-image');
+// Display certificate details - Unified with proper logo display
+function displayCertificate(certificateData) {
+    const elements = {
+        loadingState: document.getElementById('loading-state'),
+        errorState: document.getElementById('error-state'),
+        certificateDisplay: document.getElementById('certificate-display'),
+        stepsSection: document.getElementById('steps-section'),
+        form: document.getElementById('verification-form'),
+        certificateDetails: document.getElementById('certificate-details'),
+        heroImage: document.getElementById('hero-certificate-image'),
+        certificateBadge: document.getElementById('certificate-badge')
+    };
     
     // Hide other states
-    loadingState.style.display = 'none';
-    errorState.style.display = 'none';
-    form.style.display = 'none';
-    stepsSection.style.display = 'none';
+    Object.values(elements).forEach(el => {
+        if (el && el.id !== 'certificate-display' && el.id !== 'certificate-details') {
+            el.style.display = 'none';
+        }
+    });
     
-    // Determine certificate image based on role or certificate type from API
-    let certificateImageSrc = '';
+    // Format the issue date
+    const issueDate = certificateData.issued_at ? new Date(certificateData.issued_at).toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    }) : 'N/A';
     
-    // Check if API provides certificate image URL
-    if (certificateData.certificateImageUrl) {
-        certificateImageSrc = certificateData.certificateImageUrl;
-    } else {
-        // Fallback to role-based images
-        if (role === 'student') {
-            certificateImageSrc = 'Certificates Designs/Student Course Completion Certificate Example.png';
-        } else if (role === 'interns') {
-            certificateImageSrc = 'Certificates Designs/Internship Completion Example.png';
-        } else if (role === 'Achievement') {
-            certificateImageSrc = 'Certificates Designs/MSN Competition Certificate example for app and web.png';
+    // Hide hero image and show badge
+    if (elements.heroImage) {
+        elements.heroImage.style.display = 'none';
+        if (elements.certificateBadge) {
+            elements.certificateBadge.style.display = 'block';
         }
     }
     
-    // Update hero section image
-    if (heroImage) {
-        heroImage.src = certificateImageSrc;
-        heroImage.alt = 'Verified Certificate';
-        if (certificateBadge) {
-            certificateBadge.style.display = 'block';
-        }
-    }
-    
-    // Update verified certificate image in details section
-    if (verifiedCertificateImage) {
-        verifiedCertificateImage.src = certificateImageSrc;
-        verifiedCertificateImage.alt = 'Verified Certificate';
-    }
-    
-    // Display certificate information from API
-    if (certificateDetails) {
-        certificateDetails.innerHTML = `
-            <div class="certificate-image-container">
-                <img id="verified-certificate-image" class="verified-certificate" src="${certificateImageSrc}" alt="Verified Certificate" style="width: 100%; max-width: 800px; height: auto;"/>
-            </div>
-            <div class="certificate-info-section">
-                <div class="certificate-data">
-                    <h4>Certificate Information:</h4>
-                    <div class="certificate-data-grid">
-                        ${certificateData.studentName ? `<div class="data-item"><strong>Student Name:</strong> ${certificateData.studentName}</div>` : ''}
-                        ${certificateData.courseName ? `<div class="data-item"><strong>Course:</strong> ${certificateData.courseName}</div>` : ''}
-                        ${certificateData.certificateId ? `<div class="data-item"><strong>Certificate ID:</strong> ${certificateData.certificateId}</div>` : ''}
-                        ${certificateData.issueDate ? `<div class="data-item"><strong>Issue Date:</strong> ${new Date(certificateData.issueDate).toLocaleDateString()}</div>` : ''}
-                        ${certificateData.completionDate ? `<div class="data-item"><strong>Completion Date:</strong> ${new Date(certificateData.completionDate).toLocaleDateString()}</div>` : ''}
-                        ${certificateData.grade ? `<div class="data-item"><strong>Grade:</strong> ${certificateData.grade}</div>` : ''}
-                        ${certificateData.instructor ? `<div class="data-item"><strong>Instructor:</strong> ${certificateData.instructor}</div>` : ''}
-                        ${certificateData.duration ? `<div class="data-item"><strong>Duration:</strong> ${certificateData.duration}</div>` : ''}
-                        ${certificateData.skills ? `<div class="data-item"><strong>Skills Covered:</strong> ${Array.isArray(certificateData.skills) ? certificateData.skills.join(', ') : certificateData.skills}</div>` : ''}
-                        ${certificateData.status ? `<div class="data-item"><strong>Status:</strong> <span class="status-badge ${certificateData.status.toLowerCase()}">${certificateData.status}</span></div>` : ''}
+    // Display dynamic certificate with proper logo paths
+    if (elements.certificateDetails) {
+        let certificateHTML = '';
+
+        switch (certificateData.role) {
+            case 'student':
+                certificateHTML = `
+                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 900px; height: auto; min-height: 650px; margin: 0 auto; overflow: hidden; font-family: 'Arial', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 2px solid #e5e7eb;">
+                        <!-- Corner Graphics -->
+                        <div style="position: absolute; top: 0; left: 0; width: 0; height: 0; border-top: 200px solid #2c3e50; border-right: 200px solid transparent; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 180px solid #e74c3c; border-left: 180px solid transparent; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 120px solid #2c3e50; border-left: 120px solid transparent; z-index: 2;"></div>
+
+                        <!-- Content -->
+                        <div style="position: relative; z-index: 3; padding: 30px 40px; min-height: 650px; display: flex; flex-direction: column;">
+                            <!-- Main Content -->
+                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 20px 0;">
+                                <!-- Top Right ID -->
+                                <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+                                    <div style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">
+                                        Student ID: ${certificateData.msn_id || 'MSN-CERT-001'}
+                                    </div>
+                                </div>
+                                
+                                <!-- Logo and Title Section -->
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; margin-top: 30px; flex-wrap: wrap; gap: 20px;">
+                                    <!-- MSN Logo Section -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; flex: 0 0 auto;">
+                                        <div style="width: 90px; height: 90px; margin-bottom: 8px;">
+                                            <img src="Images/logo.png" alt="MSN Academy Logo" style="width: 90px; height: 90px; object-fit: contain;">
+                                        </div>
+                                        <div style="color: #2c3e50; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.2;">
+                                            MSN ACADEMY
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Certificate Title -->
+                                    <div style="text-align: center; flex: 1; min-width: 300px;">
+                                        <h1 style="color: #2c3e50; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; margin: 0; letter-spacing: 2px; line-height: 1.1;">CERTIFICATE</h1>
+                                        <h2 style="color: #2c3e50; font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 400; margin: 5px 0 0 0; letter-spacing: 1px;">OF COMPLETION</h2>
+                                    </div>
+                                    
+                                    <!-- Award Badge -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; flex: 0 0 auto;">
+                                        <div style="width: 100px; height: 100px; margin-bottom: 8px;">
+                                            <img src="Images/certificate_badge.png" alt="Certificate Badge" style="width: 100px; height: auto; object-fit: contain;">
+                                        </div>
+                                        <div style="color: #2c3e50; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.2;">
+                                            OFFICIAL AWARD
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Certificate Body -->
+                                <div style="margin: 30px 0; padding: 0 20px;">
+                                    <p style="color: #7f8c8d; font-size: clamp(0.9rem, 2vw, 1.1rem); margin: 0 0 20px 0; font-weight: 500;">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+                                    
+                                    <div style="margin: 25px 0;">
+                                        <div style="border-top: 2px solid #bdc3c7; width: 100%; margin-bottom: 15px;"></div>
+                                        <h2 style="color: #2c3e50; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin: 0; text-transform: uppercase; word-wrap: break-word;">${certificateData.recipient_name}</h2>
+                                        <div style="border-bottom: 2px solid #bdc3c7; width: 100%; margin-top: 15px;"></div>
+                                    </div>
+                                    
+                                    <p style="color: #7f8c8d; font-size: clamp(0.9rem, 2vw, 1.1rem); margin: 25px 0 15px 0; font-weight: 500;">FOR SUCCESSFULLY COMPLETING</p>
+                                    
+                                    <h3 style="color: #e74c3c; font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; margin: 15px 0 25px 0; text-transform: uppercase; word-wrap: break-word;">${certificateData.course_title}</h3>
+                                    
+                                    <p style="color: #7f8c8d; font-size: clamp(0.8rem, 1.5vw, 1rem); line-height: 1.5; max-width: 600px; margin: 0 auto;">
+                                        COURSE AT MSN ACADEMY, CONSISTENTLY SHOWCASING<br class="desktop-break">
+                                        DEDICATION, COMMITMENT TO LEARNING, AND A STRONG<br class="desktop-break">
+                                        WILLINGNESS TO GROW.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Footer Section -->
+                            <div style="margin-top: auto; padding-top: 30px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                                    <!-- Left Signature -->
+                                    <div style="text-align: center; flex: 1; min-width: 150px;">
+                                        <div style="border-bottom: 2px solid #2c3e50; width: 150px; margin: 0 auto 8px;"></div>
+                                        <p style="color: #2c3e50; font-size: clamp(0.8rem, 1.5vw, 1rem); font-weight: 600; margin: 0;">Mr. Najm Ur Rehman</p>
+                                        <p style="color: #7f8c8d; font-size: clamp(0.7rem, 1.2vw, 0.9rem); margin: 2px 0 0 0;">Head Trainer</p>
+                                    </div>
+                                    
+                                    <!-- Center Verification Badge -->
+                                    <div style="text-align: center; flex: 0 0 auto; margin: 0 20px;">
+                                        <div style="width: 80px; height: 80px; border: 3px solid #2c3e50; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: white; margin: 0 auto 8px;">
+                                            <i class="fas fa-certificate" style="color: #2c3e50; font-size: 24px;"></i>
+                                        </div>
+                                        <p style="color: #2c3e50; font-size: clamp(0.7rem, 1.2vw, 0.9rem); font-weight: 600; margin: 0;">VERIFIED</p>
+                                        <p style="color: #7f8c8d; font-size: clamp(0.6rem, 1vw, 0.8rem); margin: 2px 0 0 0;">Certificate</p>
+                                    </div>
+                                    
+                                    <!-- Right Signature -->
+                                    <div style="text-align: center; flex: 1; min-width: 150px;">
+                                        <div style="border-bottom: 2px solid #2c3e50; width: 150px; margin: 0 auto 8px;"></div>
+                                        <p style="color: #2c3e50; font-size: clamp(0.8rem, 1.5vw, 1rem); font-weight: 600; margin: 0;">Mr. Muhammad Suleman Nagri</p>
+                                        <p style="color: #7f8c8d; font-size: clamp(0.7rem, 1.2vw, 0.9rem); margin: 2px 0 0 0;">CEO of MSN Academy</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Bottom Left Code -->
+                                <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
+                                    <div style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">
+                                        Verification Code: ${certificateData.code}
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <!-- Responsive Styles -->
+                        <style>
+                            @media (max-width: 768px) {
+                                .desktop-break { display: none; }
+                            }
+                        </style>
                     </div>
-                </div>
-            </div>
-        `;
+                `;
+                break;
+            case 'interns':
+                certificateHTML = `
+                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 850px; height: 600px; margin: 0 auto; overflow: hidden; font-family: 'Poppins', sans-serif; border: 10px solid #0c4b33; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <!-- Corner Graphics -->
+                        <div style="position: absolute; top: 0; left: 0; border-top: 80px solid #d4af37; border-right: 80px solid transparent; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: 0; right: 0; border-bottom: 80px solid #d4af37; border-left: 80px solid transparent; z-index: 1;"></div>
+
+                        <!-- Content -->
+                        <div style="position: relative; z-index: 2; padding: 20px; display: flex; flex-direction: column; height: 100%; text-align: center;">
+                            <!-- Top Right ID -->
+                            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                <div style="color: #6b7280; font-size: 0.85rem; font-weight: 600;">
+                                    Student ID: ${certificateData.msn_id || 'MSN-INTERN-001'}
+                                </div>
+                            </div>
+                            
+                            <!-- Header -->
+                            <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 15px; margin-top: 20px;">
+                                <img src="Images/logo.png" alt="MSN Academy Logo" style="width: 90px; height: 90px; object-fit: contain;">
+                            </div>
+
+                            <!-- Main Body -->
+                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                                <h1 style="color: #0c4b33; font-size: 2.8rem; font-weight: 700; margin: 0;">INTERNSHIP CERTIFICATE</h1>
+                                <p style="color: #555; font-size: 1rem; margin: 15px 0;">THIS IS TO CERTIFY THAT</p>
+                                <h2 style="color: #0c4b33; font-size: 2.5rem; font-weight: 600; margin: 10px 0; font-family: 'Great Vibes', cursive;">${certificateData.recipient_name}</h2>
+                                <p style="color: #555; font-size: 1rem; margin: 10px 0;">HAS SUCCESSFULLY COMPLETED AN INTERNSHIP IN</p>
+                                <h3 style="color: #d4af37; font-size: 1.8rem; font-weight: 700; margin: 10px 0;">${certificateData.course_title}</h3>
+                                <p style="color: #555; font-size: 0.9rem; max-width: 550px; margin: 15px auto;">DURING WHICH THEY DEMONSTRATED EXCEPTIONAL SKILLS, DEDICATION, AND A STRONG COMMITMENT TO PROFESSIONAL GROWTH AT MSN ACADEMY.</p>
+                                <p style="color: #555; font-size: 1rem; margin-top: 20px;"><strong>Date of Completion:</strong> ${issueDate}</p>
+                            </div>
+
+                            <!-- Footer -->
+                            <div style="display: flex; justify-content: space-around; align-items: center; padding-top: 20px;">
+                                <div style="text-align: center;">
+                                    <p style="font-weight: 600; margin: 0; color: #0c4b33;">Mr. Najm Ur Rehman</p>
+                                    <p style="font-size: 0.8rem; margin: 0; color: #555;">Head Trainer</p>
+                                </div>
+                                <div style="width: 100px; height: 100px; background: linear-gradient(45deg, #0c4b33, #d4af37); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white;"><i class="fas fa-certificate" style="color: white; font-size: 32px;"></i></div>
+                                <div style="text-align: center;">
+                                    <p style="font-weight: 600; margin: 0; color: #0c4b33;">Mr. Muhammad Suleman Nagri</p>
+                                    <p style="font-size: 0.8rem; margin: 0; color: #555;">CEO of MSN Academy</p>
+                                </div>
+                            </div>
+                            <!-- Bottom Left Code -->
+                            <div style="position: absolute; bottom: 10px; left: 10px; z-index: 10;">
+                                <div style="color: #6b7280; font-size: 0.85rem; font-weight: 600;">
+                                    Verification Code: ${certificateData.code}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                break;
+            case 'Achievement':
+                certificateHTML = `
+                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 850px; height: 600px; margin: 0 auto; overflow: hidden; font-family: 'Poppins', sans-serif; border: 8px solid #dc2626; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <!-- Corner Graphics -->
+                        <div style="position: absolute; top: -30px; left: -30px; width: 120px; height: 120px; background: linear-gradient(45deg, #fbbf24, #f59e0b); border-radius: 50%; z-index: 1;"></div>
+                        <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: linear-gradient(45deg, #dc2626, #b91c1c); border-radius: 50%; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: -25px; left: -25px; width: 110px; height: 110px; background: linear-gradient(45deg, #059669, #047857); border-radius: 50%; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: -30px; right: -30px; width: 130px; height: 130px; background: linear-gradient(45deg, #7c3aed, #6d28d9); border-radius: 50%; z-index: 1;"></div>
+
+                        <!-- Content -->
+                        <div style="position: relative; z-index: 2; padding: 25px; display: flex; flex-direction: column; height: 100%; text-align: center;">
+                            <!-- Top Right ID -->
+                            <div style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                                <div style="color: #6b7280; font-size: 0.85rem; font-weight: 600;">
+                                    Student ID: ${certificateData.msn_id || 'MSN-ACHV-001'}
+                                </div>
+                            </div>
+                            
+                            <!-- Header -->
+                            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 10px; margin-top: 20px;">
+                                <div style="width: 80px; height: 80px;">
+                                    <img src="Images/logo.png" alt="MSN Academy Logo" style="width: 80px; height: 80px; object-fit: contain;">
+                                </div>
+                                <div style="width: 90px; height: 90px;">
+                                    <img src="Images/certificate_badge.png" alt="Certificate Badge" style="width: 90px; height: auto; object-fit: contain;">
+                                </div>
+                            </div>
+
+                            <!-- Main Body -->
+                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                                <h1 style="color: #dc2626; font-size: 3rem; font-weight: 800; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">ACHIEVEMENT</h1>
+                                <h2 style="color: #dc2626; font-size: 2rem; font-weight: 600; margin: 5px 0 15px 0;">CERTIFICATE</h2>
+                                <p style="color: #555; font-size: 1rem; margin: 10px 0;">THIS CERTIFICATE IS AWARDED TO</p>
+                                <h2 style="color: #1e40af; font-size: 2.8rem; font-weight: 700; margin: 15px 0; font-family: 'Great Vibes', cursive; text-decoration: underline; text-decoration-color: #fbbf24;">${certificateData.recipient_name}</h2>
+                                <p style="color: #555; font-size: 1rem; margin: 10px 0;">FOR OUTSTANDING ACHIEVEMENT IN</p>
+                                <h3 style="color: #059669; font-size: 2rem; font-weight: 700; margin: 15px 0; text-transform: uppercase;">${certificateData.course_title}</h3>
+                                <p style="color: #555; font-size: 0.95rem; max-width: 500px; margin: 15px auto;">DEMONSTRATING EXCEPTIONAL PERFORMANCE, LEADERSHIP, AND EXCELLENCE THAT SETS A BENCHMARK FOR OTHERS AT MSN ACADEMY.</p>
+                                <div style="display: flex; justify-content: center; gap: 10px; margin: 20px 0;">
+                                    <div style="width: 40px; height: 40px; background: #fbbf24; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-star" style="color: white; font-size: 18px;"></i>
+                                    </div>
+                                    <div style="width: 40px; height: 40px; background: #dc2626; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-medal" style="color: white; font-size: 18px;"></i>
+                                    </div>
+                                    <div style="width: 40px; height: 40px; background: #059669; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-award" style="color: white; font-size: 18px;"></i>
+                                    </div>
+                                </div>
+                                <p style="color: #555; font-size: 1rem; margin-top: 15px;"><strong>Date of Achievement:</strong> ${issueDate}</p>
+                            </div>
+
+                            <!-- Footer -->
+                            <div style="display: flex; justify-content: space-around; align-items: center; padding-top: 15px; border-top: 2px solid #fbbf24;">
+                                <div style="text-align: center;">
+                                    <p style="font-weight: 600; margin: 0; color: #dc2626;">Mr. Najm Ur Rehman</p>
+                                    <p style="font-size: 0.8rem; margin: 0; color: #555;">Head Trainer</p>
+                                </div>
+                                <div style="width: 80px; height: 80px; background: linear-gradient(45deg, #dc2626, #fbbf24); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white;">
+                                    <i class="fas fa-certificate" style="color: white; font-size: 28px;"></i>
+                                </div>
+                                <div style="text-align: center;">
+                                    <p style="font-weight: 600; margin: 0; color: #dc2626;">Mr. Muhammad Suleman Nagri</p>
+                                    <p style="font-size: 0.8rem; margin: 0; color: #555;">CEO of MSN Academy</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom Left Code -->
+                            <div style="position: absolute; bottom: 10px; left: 10px; z-index: 10;">
+                                <div style="color: #6b7280; font-size: 0.85rem; font-weight: 600;">
+                                    Verification Code: ${certificateData.code}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                break;
+            default:
+                certificateHTML = `<p>Invalid certificate type.</p>`;
+                break;
+        }
+
+        elements.certificateDetails.innerHTML = certificateHTML;
     }
     
-    certificateDisplay.style.display = 'block';
-    
-    // Scroll to certificate display
-    certificateDisplay.scrollIntoView({ behavior: 'smooth' });
+    if (elements.certificateDisplay) {
+        elements.certificateDisplay.style.display = 'block';
+        // Scroll to certificate display
+        elements.certificateDisplay.scrollIntoView({ behavior: 'smooth' });
+    }
 }
 
 // Reset form to initial state
@@ -735,91 +720,70 @@ function initScrollAnimations() {
     animatedElements.forEach(el => observer.observe(el));
 }
 
-// Simplified Mobile Navigation - WORKING VERSION
-function initMobileNavigation() {
-    const toggle = document.querySelector('.msn-mobile-menu-toggle');
-    const navLinks = document.querySelector('.msn-nav-links');
-    
-    if (!toggle || !navLinks) {
-        console.log('Mobile nav elements not found');
-        return;
+// Course-specific certificate verification functions
+function initCoursePageCertificateVerification() {
+    // Python Programming page
+    const pythonForm = document.getElementById('python-verification-form');
+    if (pythonForm) {
+        pythonForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const code = document.getElementById('python-certificate-code').value.trim();
+            if (code) {
+                await verifyCoursePageCertificate(code);
+            }
+        });
     }
     
-    console.log('Mobile nav elements found - setting up...');
-    
-    toggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const isActive = navLinks.classList.contains('mobile-active');
-        const icon = toggle.querySelector('i');
-        
-        if (isActive) {
-            // Close menu
-            navLinks.classList.remove('mobile-active');
-            toggle.classList.remove('active', 'menu-open');
-            if (icon) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+    // Frontend Development page
+    const frontendForm = document.getElementById('frontend-verification-form');
+    if (frontendForm) {
+        frontendForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const code = document.getElementById('frontend-certificate-code').value.trim();
+            if (code) {
+                await verifyCoursePageCertificate(code);
             }
-            document.body.style.overflow = '';
-        } else {
-            // Open menu
-            navLinks.classList.add('mobile-active');
-            toggle.classList.add('active', 'menu-open');
-            if (icon) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            }
-            document.body.style.overflow = 'hidden';
-        }
-    });
-    
-    // Close menu when clicking nav links
-    navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('mobile-active');
-            toggle.classList.remove('active', 'menu-open');
-            const icon = toggle.querySelector('i');
-            if (icon) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-            document.body.style.overflow = '';
         });
-    });
+    }
     
-    // Close menu when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
-            if (navLinks.classList.contains('mobile-active')) {
-                navLinks.classList.remove('mobile-active');
-                toggle.classList.remove('active', 'menu-open');
-                const icon = toggle.querySelector('i');
-                if (icon) {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-                document.body.style.overflow = '';
+    // Competitive Programming page
+    const competitiveForm = document.getElementById('competitive-verification-form');
+    if (competitiveForm) {
+        competitiveForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const code = document.getElementById('competitive-certificate-code').value.trim();
+            if (code) {
+                await verifyCoursePageCertificate(code);
             }
-        }
-    });
-    
-    console.log('Mobile navigation initialized successfully!');
+        });
+    }
 }
 
-// Initialize all functionality - Consolidated initialization
+// Verify certificate for course pages - uses main verification function
+async function verifyCoursePageCertificate(code) {
+    await verifyCertificate(code, 'student'); // Default to student for course pages
+}
+
+
+
+// Initialize all functionality - Single consolidated initialization
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize mobile navigation
-    initMobileNavigation();
+    mobileNav.init();
     
     // Initialize other components
-    contactModalSimple.init();
+    contactModal.init();
     initSmoothScroll();
-    updateImageBasedOnRole();
     initCertificateVerification();
     initContactForm();
     initScrollAnimations();
+    
+    // Role-based image updates
+    const roleSelect = document.getElementById('role');
+    if (roleSelect) {
+        roleSelect.addEventListener('change', updateImageBasedOnRole);
+        updateImageBasedOnRole(); // Initial call
+    }
     
     // Add verify now button functionality
     const verifyNowBtn = document.querySelector('.verify-now-btn');
@@ -828,8 +792,17 @@ document.addEventListener('DOMContentLoaded', function() {
             const form = document.getElementById('verification-form');
             if (form) {
                 form.scrollIntoView({ behavior: 'smooth' });
-                document.getElementById('certificate-code').focus();
+                const codeInput = document.getElementById('certificate-code');
+                if (codeInput) codeInput.focus();
             }
         });
     }
+    
+    
+    // Ensure mobile navigation works with retry
+    setTimeout(() => {
+        if (!mobileNav.isInitialized) {
+            mobileNav.init();
+        }
+    }, 500);
 });
