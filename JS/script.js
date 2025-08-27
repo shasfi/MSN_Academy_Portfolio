@@ -383,115 +383,154 @@ function displayCertificate(certificateData) {
         switch (certificateData.role) {
             case 'student':
                 certificateHTML = `
-                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 900px; height: auto; min-height: 650px; margin: 0 auto; overflow: hidden; font-family: 'Arial', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 2px solid #e5e7eb;">
+                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 100%; height: auto; min-height: 580px; margin: 0 auto; overflow: hidden; font-family: 'Arial', sans-serif; box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 2px solid #e5e7eb;">
                         <!-- Corner Graphics -->
-                        <div style="position: absolute; top: 0; left: 0; width: 0; height: 0; border-top: 200px solid #2c3e50; border-right: 200px solid transparent; z-index: 1;"></div>
-                        <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 180px solid #e74c3c; border-left: 180px solid transparent; z-index: 1;"></div>
-                        <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 120px solid #2c3e50; border-left: 120px solid transparent; z-index: 2;"></div>
+                        <div style="position: absolute; top: 0; left: 0; width: 0; height: 0; border-top: 120px solid #2c3e50; border-right: 120px solid transparent; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 100px solid #e74c3c; border-left: 100px solid transparent; z-index: 1;"></div>
+                        <div style="position: absolute; bottom: 0; right: 0; width: 0; height: 0; border-bottom: 70px solid #2c3e50; border-left: 70px solid transparent; z-index: 2;"></div>
 
                         <!-- Content -->
-                        <div style="position: relative; z-index: 3; padding: 30px 40px; min-height: 650px; display: flex; flex-direction: column;">
+                        <div style="position: relative; z-index: 3; padding: 10px 20px; height: calc(100% - 20px); display: flex; flex-direction: column; box-sizing: border-box;">
                             <!-- Main Content -->
-                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 20px 0;">
-                                <!-- Top Right ID -->
-                                <div style="position: absolute; top: 20px; right: 20px; z-index: 10;">
-                                    <div style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">
+                            <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 10px 0;">
+                                <!-- Top Right Student ID -->
+                                <div style="position: absolute; top: 15px; right: 20px; z-index: 10;">
+                                    <div style="color: #6b7280; font-size: 0.8rem; font-weight: 600; text-align: center;">
                                         Student ID: ${certificateData.msn_id || 'MSN-CERT-001'}
                                     </div>
                                 </div>
                                 
-                                <!-- Logo and Title Section -->
-                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 40px; margin-top: 30px; flex-wrap: wrap; gap: 20px;">
+                                <!-- Header Section with Logo, Title, and Badge -->
+                                <div class="certificate-header-main" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; margin-top: 10px;">
                                     <!-- MSN Logo Section -->
-                                    <div style="display: flex; flex-direction: column; align-items: center; flex: 0 0 auto;">
-                                        <div style="width: 90px; height: 90px; margin-bottom: 8px;">
-                                            <img src="Images/logo.png" alt="MSN Academy Logo" style="width: 90px; height: 90px; object-fit: contain;">
+                                    <div class="msn-logo-container" style="display: flex; flex-direction: column; align-items: center; flex: 0 0 auto;">
+                                        <div style="width: 60px; height: 60px; margin-bottom: 5px;">
+                                            <img src="Images/logo.png" alt="MSN Academy Logo" style="width: 60px; height: 60px; object-fit: contain;">
                                         </div>
-                                        <div style="color: #2c3e50; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.2;">
+                                        <div style="color: #2c3e50; font-size: 0.7rem; font-weight: 600; text-align: center; line-height: 1.2;">
                                             MSN ACADEMY
                                         </div>
                                     </div>
                                     
                                     <!-- Certificate Title -->
-                                    <div style="text-align: center; flex: 1; min-width: 300px;">
-                                        <h1 style="color: #2c3e50; font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; margin: 0; letter-spacing: 2px; line-height: 1.1;">CERTIFICATE</h1>
+                                    <div style="text-align: center; flex: 1;">
+                                        <h1 style="color: #2c3e50; font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin: 0; letter-spacing: 2px; line-height: 1.1;">CERTIFICATE</h1>
                                         <h2 style="color: #2c3e50; font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 400; margin: 5px 0 0 0; letter-spacing: 1px;">OF COMPLETION</h2>
                                     </div>
                                     
                                     <!-- Award Badge -->
-                                    <div style="display: flex; flex-direction: column; align-items: center; flex: 0 0 auto;">
-                                        <div style="width: 100px; height: 100px; margin-bottom: 8px;">
-                                            <img src="Images/certificate_badge.png" alt="Certificate Badge" style="width: 100px; height: auto; object-fit: contain;">
+                                    <div class="award-badge-container" style="display: flex; flex-direction: column; align-items: center; flex: 0 0 auto;">
+                                        <div style="width: 80px; height: 80px; margin-bottom: 5px;">
+                                            <img src="Images/certificate_badge.png" alt="Certificate Badge" style="width: 80px; height: auto; object-fit: contain;">
                                         </div>
-                                        <div style="color: #2c3e50; font-size: 0.75rem; font-weight: 600; text-align: center; line-height: 1.2;">
+                                        <div style="color: #2c3e50; font-size: 0.7rem; font-weight: 600; text-align: center; line-height: 1.2;">
                                             OFFICIAL AWARD
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Certificate Body -->
-                                <div style="margin: 30px 0; padding: 0 20px;">
-                                    <p style="color: #7f8c8d; font-size: clamp(0.9rem, 2vw, 1.1rem); margin: 0 0 20px 0; font-weight: 500;">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
+                                <div style="margin: 10px 0; padding: 0 20px;">
+                                    <p style="color: #7f8c8d; font-size: clamp(0.8rem, 1.8vw, 1rem); margin: 0 0 10px 0; font-weight: 500;">THIS CERTIFICATE IS PROUDLY PRESENTED TO</p>
                                     
-                                    <div style="margin: 25px 0;">
-                                        <div style="border-top: 2px solid #bdc3c7; width: 100%; margin-bottom: 15px;"></div>
-                                        <h2 style="color: #2c3e50; font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; margin: 0; text-transform: uppercase; word-wrap: break-word;">${certificateData.recipient_name}</h2>
-                                        <div style="border-bottom: 2px solid #bdc3c7; width: 100%; margin-top: 15px;"></div>
+                                    <div style="margin: 10px 0;">
+                                        <h2 style="color: #2c3e50; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; margin: 0; text-transform: uppercase; word-wrap: break-word;">${certificateData.recipient_name}</h2>
                                     </div>
                                     
-                                    <p style="color: #7f8c8d; font-size: clamp(0.9rem, 2vw, 1.1rem); margin: 25px 0 15px 0; font-weight: 500;">FOR SUCCESSFULLY COMPLETING</p>
+                                    <p style="color: #7f8c8d; font-size: clamp(0.8rem, 1.8vw, 1rem); margin: 10px 0 8px 0; font-weight: 500;">FOR SUCCESSFULLY COMPLETING</p>
                                     
-                                    <h3 style="color: #e74c3c; font-size: clamp(1.3rem, 3vw, 1.8rem); font-weight: 700; margin: 15px 0 25px 0; text-transform: uppercase; word-wrap: break-word;">${certificateData.course_title}</h3>
+                                    <h3 style="color: #e74c3c; font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: 700; margin: 8px 0 10px 0; text-transform: uppercase; word-wrap: break-word;">${certificateData.course_title}</h3>
                                     
-                                    <p style="color: #7f8c8d; font-size: clamp(0.8rem, 1.5vw, 1rem); line-height: 1.5; max-width: 600px; margin: 0 auto;">
-                                        COURSE AT MSN ACADEMY, CONSISTENTLY SHOWCASING<br class="desktop-break">
-                                        DEDICATION, COMMITMENT TO LEARNING, AND A STRONG<br class="desktop-break">
-                                        WILLINGNESS TO GROW.
-                                    </p>
-                                </div>
-                            </div>
+                                    <div style="max-width: 600px; margin: 0 auto;">
+                                        <p style="color: #7f8c8d; font-size: clamp(0.7rem, 1.2vw, 0.9rem); line-height: 1.4; margin: 0 0 15px 0;">
+                                            COURSE AT MSN ACADEMY, CONSISTENTLY SHOWCASING<br class="desktop-break">
+                                            DEDICATION, COMMITMENT TO LEARNING, AND A STRONG<br class="desktop-break">
+                                            WILLINGNESS TO GROW.
+                                        </p>
+                                    </div>
+                                    
+                                        <!-- Footer Section -->
+                                        <div class="footer-content" style="position: relative; padding-bottom: 40px; margin-bottom: 5px;">
+                                            <!-- Centered content: Signatures and Badge -->
+                                            <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin: 0 auto; width: 95%; max-width: 700px;">
+                                                <!-- Left Signature -->
+                                                <div style="text-align: left; flex: 1; max-width: 150px;">
+                                                    <div style="border-bottom: 1px solid #2c3e50; width: 100%; margin-bottom: 2px;"></div>
+                                                    <p style="color: #2c3e50; font-size: clamp(0.6rem, 1.1vw, 0.8rem); font-weight: 600; margin: 0;">Mr. Najm Ur Rehman</p>
+                                                    <p style="color: #7f8c8d; font-size: clamp(0.5rem, 0.9vw, 0.7rem); margin: 0;">Head Trainer</p>
+                                                </div>
+                                                
+                                                <!-- Center Verification Badge -->
+                                                <div style="text-align: center; flex-shrink: 0;">
+                                                    <div style="width: 80px; height: 80px; border: 3px solid #2c3e50; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: white; margin: 0 auto 8px; margin-top: 40px;">
+                                                        <i class="fas fa-certificate" style="color: #2c3e50; font-size: 22px;"></i>
+                                                    </div>
+                                                    <p style="color: #2c3e50; font-size: clamp(0.5rem, 0.9vw, 0.7rem); font-weight: 600; margin: 0;">VERIFIED</p>
+                                                    <p style="color: #7f8c8d; font-size: clamp(0.45rem, 0.8vw, 0.6rem); margin: 0;">Certificate</p>
+                                                </div>
+                                                
+                                                <!-- Right Signature -->
+                                                <div style="text-align: right; flex: 1; max-width: 200px;">
+                                                    <div style="border-bottom: 1px solid #2c3e50; width: 100%; margin-bottom: 2px;"></div>
+                                                    <p style="color: #2c3e50; font-size: clamp(0.6rem, 1.1vw, 0.8rem); font-weight: 600; margin: 0;">Mr. Muhammad Suleman Nagri</p>
+                                                    <p style="color: #7f8c8d; font-size: clamp(0.5rem, 0.9vw, 0.7rem); margin: 0;">CEO of MSN Academy</p>
+                                                </div>
+                                            </div>
 
-                            <!-- Footer Section -->
-                            <div style="margin-top: auto; padding-top: 30px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
-                                    <!-- Left Signature -->
-                                    <div style="text-align: center; flex: 1; min-width: 150px;">
-                                        <div style="border-bottom: 2px solid #2c3e50; width: 150px; margin: 0 auto 8px;"></div>
-                                        <p style="color: #2c3e50; font-size: clamp(0.8rem, 1.5vw, 1rem); font-weight: 600; margin: 0;">Mr. Najm Ur Rehman</p>
-                                        <p style="color: #7f8c8d; font-size: clamp(0.7rem, 1.2vw, 0.9rem); margin: 2px 0 0 0;">Head Trainer</p>
-                                    </div>
-                                    
-                                    <!-- Center Verification Badge -->
-                                    <div style="text-align: center; flex: 0 0 auto; margin: 0 20px;">
-                                        <div style="width: 80px; height: 80px; border: 3px solid #2c3e50; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: white; margin: 0 auto 8px;">
-                                            <i class="fas fa-certificate" style="color: #2c3e50; font-size: 24px;"></i>
+                                            <!-- Absolutely positioned Verification Code -->
+                                            <div style="position: absolute; margin-top: 34px;">
+                                                <p style="color: #6b7280; font-size: 12px; font-weight: 600; margin: 0;">
+                                                    Verification Code: ${certificateData.code}
+                                                </p>
+                                            </div>
                                         </div>
-                                        <p style="color: #2c3e50; font-size: clamp(0.7rem, 1.2vw, 0.9rem); font-weight: 600; margin: 0;">VERIFIED</p>
-                                        <p style="color: #7f8c8d; font-size: clamp(0.6rem, 1vw, 0.8rem); margin: 2px 0 0 0;">Certificate</p>
-                                    </div>
-                                    
-                                    <!-- Right Signature -->
-                                    <div style="text-align: center; flex: 1; min-width: 150px;">
-                                        <div style="border-bottom: 2px solid #2c3e50; width: 150px; margin: 0 auto 8px;"></div>
-                                        <p style="color: #2c3e50; font-size: clamp(0.8rem, 1.5vw, 1rem); font-weight: 600; margin: 0;">Mr. Muhammad Suleman Nagri</p>
-                                        <p style="color: #7f8c8d; font-size: clamp(0.7rem, 1.2vw, 0.9rem); margin: 2px 0 0 0;">CEO of MSN Academy</p>
-                                    </div>
                                 </div>
-                                
-                                <!-- Bottom Left Code -->
-                                <div style="position: absolute; bottom: 20px; left: 20px; z-index: 10;">
-                                    <div style="color: #6b7280; font-size: 0.9rem; font-weight: 600;">
-                                        Verification Code: ${certificateData.code}
-                                    </div>
-                                </div>
-                                
                             </div>
-                        </div>
                         
                         <!-- Responsive Styles -->
                         <style>
+                            .certificate-footer {
+                                transition: all 0.3s ease;
+                            }
                             @media (max-width: 768px) {
                                 .desktop-break { display: none; }
+                                .footer-content {
+                                    flex-direction: column;
+                                    align-items: center;
+                                    gap: 12px;
+                                }
+                                .footer-item {
+                                    min-width: 100%;
+                                    text-align: center;
+                                }
+                            }
+                            @media (max-width: 480px) {
+                                .certificate-header-main {
+                                    flex-direction: column;
+                                    gap: 15px;
+                                    margin-bottom: 10px;
+                                }
+                                .certificate-header-main h1 {
+                                    font-size: 1.5rem !important;
+                                }
+                                .certificate-header-main h2 {
+                                    font-size: 1rem !important;
+                                }
+                                .award-badge-container, .msn-logo-container {
+                                    transform: scale(0.85);
+                                }
+
+                                .certificate-footer {
+                                    flex-direction: column;
+                                    gap: 15px;
+                                }
+                                .footer-badge {
+                                    width: 80px !important;
+                                    height: 80px !important;
+                                }
+                                .footer-badge i {
+                                    font-size: 24px !important;
+                                }
                             }
                         </style>
                     </div>
@@ -499,7 +538,7 @@ function displayCertificate(certificateData) {
                 break;
             case 'interns':
                 certificateHTML = `
-                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 850px; height: 600px; margin: 0 auto; overflow: hidden; font-family: 'Poppins', sans-serif; border: 10px solid #0c4b33; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <div class="certificate-template" style="background: #fff; position: relative; width: 100%; max-width: 100%; height: auto; min-height: 500px; aspect-ratio: 16/9; margin: 0 auto; overflow: hidden; font-family: 'Poppins', sans-serif; border: 10px solid #0c4b33; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
                         <!-- Corner Graphics -->
                         <div style="position: absolute; top: 0; left: 0; border-top: 80px solid #d4af37; border-right: 80px solid transparent; z-index: 1;"></div>
                         <div style="position: absolute; bottom: 0; right: 0; border-bottom: 80px solid #d4af37; border-left: 80px solid transparent; z-index: 1;"></div>
@@ -522,7 +561,7 @@ function displayCertificate(certificateData) {
                             <div style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
                                 <h1 style="color: #0c4b33; font-size: 2.8rem; font-weight: 700; margin: 0;">INTERNSHIP CERTIFICATE</h1>
                                 <p style="color: #555; font-size: 1rem; margin: 15px 0;">THIS IS TO CERTIFY THAT</p>
-                                <h2 style="color: #0c4b33; font-size: 2.5rem; font-weight: 600; margin: 10px 0; font-family: 'Great Vibes', cursive;">${certificateData.recipient_name}</h2>
+                                <h2 style="color: #0c4b33; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 600; margin: 5px 0 10px 0; font-family: 'Poppins', sans-serif;">${certificateData.recipient_name}</h2>
                                 <p style="color: #555; font-size: 1rem; margin: 10px 0;">HAS SUCCESSFULLY COMPLETED AN INTERNSHIP IN</p>
                                 <h3 style="color: #d4af37; font-size: 1.8rem; font-weight: 700; margin: 10px 0;">${certificateData.course_title}</h3>
                                 <p style="color: #555; font-size: 0.9rem; max-width: 550px; margin: 15px auto;">DURING WHICH THEY DEMONSTRATED EXCEPTIONAL SKILLS, DEDICATION, AND A STRONG COMMITMENT TO PROFESSIONAL GROWTH AT MSN ACADEMY.</p>
@@ -530,13 +569,13 @@ function displayCertificate(certificateData) {
                             </div>
 
                             <!-- Footer -->
-                            <div style="display: flex; justify-content: space-around; align-items: center; padding-top: 20px;">
-                                <div style="text-align: center;">
+                            <div class="certificate-footer" style="display: flex; justify-content: space-around; align-items: center; padding-top: 20px;">
+                                <div class="footer-item" style="text-align: center;">
                                     <p style="font-weight: 600; margin: 0; color: #0c4b33;">Mr. Najm Ur Rehman</p>
                                     <p style="font-size: 0.8rem; margin: 0; color: #555;">Head Trainer</p>
                                 </div>
-                                <div style="width: 100px; height: 100px; background: linear-gradient(45deg, #0c4b33, #d4af37); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white;"><i class="fas fa-certificate" style="color: white; font-size: 32px;"></i></div>
-                                <div style="text-align: center;">
+                                <div class="footer-badge" style="width: 100px; height: 100px; background: linear-gradient(45deg, #0c4b33, #d4af37); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 3px solid white;"><i class="fas fa-certificate" style="color: white; font-size: 32px;"></i></div>
+                                <div class="footer-item" style="text-align: center;">
                                     <p style="font-weight: 600; margin: 0; color: #0c4b33;">Mr. Muhammad Suleman Nagri</p>
                                     <p style="font-size: 0.8rem; margin: 0; color: #555;">CEO of MSN Academy</p>
                                 </div>
@@ -603,8 +642,8 @@ function displayCertificate(certificateData) {
                             </div>
 
                             <!-- Footer -->
-                            <div style="display: flex; justify-content: space-around; align-items: center; padding-top: 15px; border-top: 2px solid #fbbf24;">
-                                <div style="text-align: center;">
+                            <div class="certificate-footer" style="display: flex; justify-content: space-around; align-items: center; padding-top: 15px; border-top: 2px solid #fbbf24;">
+                                <div class="footer-item" style="text-align: center;">
                                     <p style="font-weight: 600; margin: 0; color: #dc2626;">Mr. Najm Ur Rehman</p>
                                     <p style="font-size: 0.8rem; margin: 0; color: #555;">Head Trainer</p>
                                 </div>
@@ -798,6 +837,61 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Enforce Enroll Now buttons/links (by text) to open the enrollment form URL globally
+    (function initEnrollRedirects() {
+        const ENROLL_URL = 'https://forms.gle/c82S9HnVPQCKf1vE8';
+
+        function isInteractive(el) {
+            if (!el) return false;
+            const tag = (el.tagName || '').toUpperCase();
+            return tag === 'BUTTON' || tag === 'A' || el.hasAttribute('role') || /btn|button/i.test(el.className || '');
+        }
+
+        function isEnrollNow(el) {
+            const text = (el.textContent || '').trim().toLowerCase();
+            return text === 'enroll now';
+        }
+
+        function isEnrollTarget(el) {
+            return isInteractive(el) && isEnrollNow(el);
+        }
+
+        function attachHandler(el) {
+            if (!el || el.__enrollBound) return;
+            el.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                window.open(ENROLL_URL, '_blank', 'noopener');
+            });
+            el.setAttribute('role', 'link');
+            el.style.cursor = 'pointer';
+            el.__enrollBound = true;
+        }
+
+        // Attach to existing elements (covering index.html cards and others)
+        const initialSelector = 'button, a, .btn, [role="button"], .learn-more-button, .enroll-now-button';
+        document.querySelectorAll(initialSelector).forEach(el => {
+            if (isEnrollTarget(el)) attachHandler(el);
+        });
+
+        // Observe DOM for any future elements added dynamically
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach(m => {
+                m.addedNodes && m.addedNodes.forEach(node => {
+                    if (!(node instanceof HTMLElement)) return;
+                    if (isEnrollTarget(node)) {
+                        attachHandler(node);
+                    } else if (node.querySelectorAll) {
+                        node.querySelectorAll(initialSelector).forEach(child => {
+                            if (isEnrollTarget(child)) attachHandler(child);
+                        });
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    })();
+
     
     // Ensure mobile navigation works with retry
     setTimeout(() => {
